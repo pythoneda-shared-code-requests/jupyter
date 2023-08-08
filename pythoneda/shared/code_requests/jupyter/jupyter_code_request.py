@@ -52,12 +52,22 @@ class JupyterCodeRequest(CodeRequest):
         """
         return self._notebook
 
-    def append(self, pythonCode: str):
+    def append_markdown(self, txt: str):
         """
-        Appends a new cell.
+        Appends a new Markdown cell.
+        :param txt: The text to add.
+        :type txt: str
+        """
+        super().append_markdown(str)
+        self.notebook.cells.append(nbformat.v4.new_markdown_cell(txt))
+
+    def append_code(self, pythonCode: str):
+        """
+        Appends a new code cell.
         :param pythonCode: The Python code to add.
         :type pythonCode: str
         """
+        super().append_code(pythonCode)
         self.notebook.cells.append(nbformat.v4.new_code_cell(pythonCode))
 
     def write(self, file):
