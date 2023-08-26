@@ -21,6 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import nbformat
 from pythoneda.shared.code_requests.code_request import CodeRequest
 from pythoneda.value_object import primary_key_attribute
+from typing import List
 
 class JupyterCodeRequest(CodeRequest):
 
@@ -52,22 +53,24 @@ class JupyterCodeRequest(CodeRequest):
         """
         return self._notebook
 
-    def append_markdown(self, txt: str):
+    def append_markdown(self, txt:str):
         """
         Appends a new Markdown cell.
         :param txt: The text to add.
         :type txt: str
         """
-        super().append_markdown(str)
+        super().append_markdown(txt)
         self.notebook.cells.append(nbformat.v4.new_markdown_cell(txt))
 
-    def append_code(self, pythonCode: str):
+    def append_code(self, pythonCode:str, dependencies:List):
         """
         Appends a new code cell.
         :param pythonCode: The Python code to add.
         :type pythonCode: str
+        :param dependencies: The dependencies.
+        :type dependencies: List[pythoneda.shared.code_requests.Dependency]
         """
-        super().append_code(pythonCode)
+        super().append_code(pythonCode, dependencies)
         self.notebook.cells.append(nbformat.v4.new_code_cell(pythonCode))
 
     def write(self, file):
