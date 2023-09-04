@@ -18,10 +18,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from datetime import datetime
+import json
 import nbformat
 from pythoneda.shared.code_requests.code_request import CodeRequest
+from pythoneda.shared.code_requests.jupyter import JupyterNixFlake
 from pythoneda.value_object import primary_key_attribute
-from typing import List
+import tempfile
+from typing import Dict, List
 
 class JupyterCodeRequest(CodeRequest):
 
@@ -34,7 +38,7 @@ class JupyterCodeRequest(CodeRequest):
         - Model code requests using Jupyter notebooks.
 
     Collaborators:
-        - pythoneda.shared.code_requestscode_request.CodeRequest
+        - pythoneda.shared.code_requests.CodeRequest
     """
     def __init__(self):
         """
@@ -80,3 +84,53 @@ class JupyterCodeRequest(CodeRequest):
         :type file: File
         """
         nbformat.write(self.notebook, file)
+
+    def to_dict(self) -> Dict:
+        """
+        Converts this instance into a dictionary.
+        :return: Such dictionary.
+        :rtype: Dict
+        """
+        return {
+            "notebook": str(nbformat.writes(self._notebook, version=4))
+        }
+
+    @classmethod
+    def from_dict(cls, dict:Dict): # CodeRequest
+        """
+        Creates a new instance with the contents of given dictionary.
+        :param dict: The dictionary.
+        :type dict: Dict
+        :return: A JupyterCodeRequest instance.
+        :rtype: pythoneda.shared.code_requests.jupyter.JupyterCodeRequest
+        """
+        result = cls()
+        result._notebook = nbformat.reads(dict["notebook"], as_version=4)
+        return result
+
+    def to_json(self) -> str:
+        """
+        Serializes this instance as json.
+        :return: The json text.
+        :rtype: str
+        """
+        return json.dumps(self.to_dict())
+
+    @classmethod
+    def from_json(cls, jsonText: str): # -> JupyterCodeRequest
+        """
+        Reconstructs a CodeRequest instance from given json text.
+        :param jsonText: The json text.
+        :type jsonText: str
+        :return: The JupyterCodeRequest instance.
+        :rtype: pythoneda.shared.code_requests.jupyter.JupyterCodeRequest
+        """
+        result = cls.from_dict(json.loads(jsonText))
+        return result
+
+    async def run(self):
+        """
+        Runs this notebook.
+        """
+        with tempfile.TemporaryDirectory() as temp_dir:
+            await JupyterNixFlake(self, "code_request", datetime.now().strftime("%Y%m%d%H%M%S"), temp_dir, "A nix flake to run a code request").run()
