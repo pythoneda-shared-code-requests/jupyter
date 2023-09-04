@@ -47,6 +47,15 @@ class JupyterCodeRequest(CodeRequest):
         super().__init__()
         self._notebook = nbformat.v4.new_notebook()
 
+    @classmethod
+    def empty(cls):
+        """
+        Builds an empty instance. Required for unmarshalling.
+        :return: An empty instance.
+        :rtype: pythoneda.ValueObject
+        """
+        return cls()
+
     @property
     @primary_key_attribute
     def notebook(self):
@@ -85,47 +94,32 @@ class JupyterCodeRequest(CodeRequest):
         """
         nbformat.write(self.notebook, file)
 
-    def to_dict(self) -> Dict:
+    def _set_attribute_from_json(self, varName, varValue):
         """
-        Converts this instance into a dictionary.
-        :return: Such dictionary.
-        :rtype: Dict
+        Changes the value of an attribute of this instance.
+        :param varName: The name of the attribute.
+        :type varName: str
+        :param varValue: The value of the attribute.
+        :type varValue: int, bool, str, type
         """
-        return {
-            "notebook": str(nbformat.writes(self._notebook, version=4))
-        }
+        if varName == 'notebook':
+            self._notebook = nbformat.reads(varValue, as_version=4)
+        else:
+            super()._set_attribute_from_json(varName, varValue)
 
-    @classmethod
-    def from_dict(cls, dict:Dict): # CodeRequest
+    def _get_attribute_to_json(self, varName) -> str:
         """
-        Creates a new instance with the contents of given dictionary.
-        :param dict: The dictionary.
-        :type dict: Dict
-        :return: A JupyterCodeRequest instance.
-        :rtype: pythoneda.shared.code_requests.jupyter.JupyterCodeRequest
-        """
-        result = cls()
-        result._notebook = nbformat.reads(dict["notebook"], as_version=4)
-        return result
-
-    def to_json(self) -> str:
-        """
-        Serializes this instance as json.
-        :return: The json text.
+        Retrieves the value of an attribute of this instance, as Json.
+        :param varName: The name of the attribute.
+        :type varName: str
+        :return: The attribute value in json format.
         :rtype: str
         """
-        return json.dumps(self.to_dict())
-
-    @classmethod
-    def from_json(cls, jsonText: str): # -> JupyterCodeRequest
-        """
-        Reconstructs a CodeRequest instance from given json text.
-        :param jsonText: The json text.
-        :type jsonText: str
-        :return: The JupyterCodeRequest instance.
-        :rtype: pythoneda.shared.code_requests.jupyter.JupyterCodeRequest
-        """
-        result = cls.from_dict(json.loads(jsonText))
+        result = None
+        if varName == 'notebook':
+            result = nbformat.writes(self._notebook)
+        else:
+            result = super()._get_attribute_to_json(varName)
         return result
 
     async def run(self):
@@ -133,4 +127,9 @@ class JupyterCodeRequest(CodeRequest):
         Runs this notebook.
         """
         with tempfile.TemporaryDirectory() as temp_dir:
-            await JupyterNixFlake(self, "code_request", datetime.now().strftime("%Y%m%d%H%M%S"), temp_dir, "A nix flake to run a code request").run()
+            await JupyterNixFlake(
+                self,
+                "code_request",
+                datetime.now().strftime("%Y%m%d%H%M%S"),
+                temp_dir,
+                "A nix flake to run a code request").run()

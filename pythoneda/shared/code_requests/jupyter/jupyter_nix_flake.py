@@ -18,10 +18,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from .jupyterlab_input import JupyterlabInput
 from path import Path
 from pythoneda import primary_key_attribute
-from pythoneda.shared.code_requests import CodeRequest
-from pythoneda.shared.nix_flake import FlakeUtilsInput, NixFlakeInput, Nixos2305Input, PythonedaNixFlake
+from pythoneda.shared.code_requests import CodeRequest, PythonedaDependency
+from pythoneda.shared.nix_flake import FlakeUtilsInput, NixFlakeInput, Nixos2305Input, PythonedaNixFlake, PythonedaSharedPythonedaBannerInput
 from typing import List
 
 class JupyterNixFlake(PythonedaNixFlake):
@@ -54,7 +55,7 @@ class JupyterNixFlake(PythonedaNixFlake):
         super().__init__(
             name,
             version,
-            self.__class__.dependencies_to_inputs(codeRequest.dependencies()),
+            self.__class__.dependencies_to_inputs(codeRequest.dependencies),
             outputFolder,
             description,
             "https://github.com/pythoneda-shared-code-requests/jupyter",
@@ -62,7 +63,18 @@ class JupyterNixFlake(PythonedaNixFlake):
             "D",
             "D")
         self._code_request = codeRequest
+        print(f'** received dependencies **')
+        for input in codeRequest.dependencies:
+            print(f'- {input.name}')
 
+    @classmethod
+    def empty(cls):
+        """
+        Builds an empty instance. Required for unmarshalling.
+        :return: An empty instance.
+        :rtype: pythoneda.ValueObject
+        """
+        return cls(None, None, None, None, None)
 
     @property
     @primary_key_attribute
@@ -118,7 +130,11 @@ class JupyterNixFlake(PythonedaNixFlake):
         :return: The list of NixFlakeInput instances.
         :rtype: List[pythoneda.shared.nix_flake.NixFlakeInput]
         """
-        result = { NixFlakeInput("jupyterlab", "github:rydnr/nix-flakes/main?dir=jupyterlab", [ ]) }
+        result = { JupyterlabInput() }
+        pythonedaDependencies = [ Nixos2305Input(), FlakeUtilsInput(), PythonedaSharedPythonedaBannerInput() ]
         for dep in dependencies:
-            result.add(NixFlakeInput(dep.name, dep.url, []))
+            deps = []
+            if isinstance(dep, PythonedaDependency):
+                deps = pythonedaDependencies
+            result.add(NixFlakeInput(dep.name, dep.url, deps))
         return list(result)
