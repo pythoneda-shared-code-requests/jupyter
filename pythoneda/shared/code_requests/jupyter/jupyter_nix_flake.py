@@ -22,7 +22,7 @@ from .jupyterlab_input import JupyterlabInput
 from path import Path
 from pythoneda import primary_key_attribute
 from pythoneda.shared.code_requests import CodeRequest, PythonedaDependency
-from pythoneda.shared.nix_flake import FlakeUtilsInput, NixFlakeInput, Nixos2305Input, PythonedaNixFlake, PythonedaSharedPythonedaBannerInput
+from pythoneda.shared.nix_flake import FlakeUtilsInput, NixFlakeInput, Nixos2305Input, PythonedaNixFlake, PythonedaSharedPythonedaBannerInput, PythonedaSharedPythonedaDomainInput
 from typing import List
 
 class JupyterNixFlake(PythonedaNixFlake):
@@ -63,9 +63,6 @@ class JupyterNixFlake(PythonedaNixFlake):
             "D",
             "D")
         self._code_request = codeRequest
-        print(f'** received dependencies **')
-        for input in codeRequest.dependencies:
-            print(f'- {input.name}')
 
     @classmethod
     def empty(cls):
@@ -136,5 +133,7 @@ class JupyterNixFlake(PythonedaNixFlake):
             deps = []
             if isinstance(dep, PythonedaDependency):
                 deps = pythonedaDependencies
+                if dep.name != "pythoneda-shared-pythoneda-domain":
+                    deps.append(PythonedaSharedPythonedaDomainInput())
             result.add(NixFlakeInput(dep.name, dep.url, deps))
         return list(result)
