@@ -20,5 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 
-from .jupyter_nix_flake import JupyterNixFlake
-from .jupyter_code_request import JupyterCodeRequest
+from .jupyterlab_code_request_nix_flake_spec import JupyterlabCodeRequestNixFlakeSpec
+from .jupyterlab_code_request import JupyterlabCodeRequest
+from .jupyterlab_code_request_nix_flake import JupyterlabCodeRequestNixFlake

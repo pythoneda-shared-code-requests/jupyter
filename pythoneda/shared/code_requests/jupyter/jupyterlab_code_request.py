@@ -1,7 +1,7 @@
 """
-pythoneda/shared/code_requests/jupyter/jupyter_code_request.py
+pythoneda/shared/code_requests/jupyter/jupyterlab_code_request.py
 
-This file defines the JupyterCodeRequest class.
+This file defines the JupyterlabCodeRequest class.
 
 Copyright (C) 2023-today rydnr's pythoneda-shared-code-requests/jupyter
 
@@ -18,21 +18,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
-from datetime import datetime
-import json
 import nbformat
-from pythoneda.shared.code_requests.code_request import CodeRequest
-from pythoneda.shared.code_requests.jupyter import JupyterNixFlake
-from pythoneda.value_object import primary_key_attribute
-import tempfile
-from typing import Dict, List
+from pythoneda import primary_key_attribute
+from pythoneda.shared.code_requests import CodeRequest, CodeRequestNixFlakeSpec
+from pythoneda.shared.nix_flake import NixFlakeSpec
+from typing import List
 
-class JupyterCodeRequest(CodeRequest):
+class JupyterlabCodeRequest(CodeRequest):
 
     """
-    Jupyter-based code requests.
+    Jupyterlab-based code requests.
 
-    Class name: JupyterCodeRequest
+    Class name: JupyterlabCodeRequest
 
     Responsibilities:
         - Model code requests using Jupyter notebooks.
@@ -42,7 +39,7 @@ class JupyterCodeRequest(CodeRequest):
     """
     def __init__(self):
         """
-        Creates a new JupyterCodeRequest instance.
+        Creates a new JupyterlabCodeRequest instance.
         """
         super().__init__()
         self._notebook = nbformat.v4.new_notebook()
@@ -72,8 +69,9 @@ class JupyterCodeRequest(CodeRequest):
         :param txt: The text to add.
         :type txt: str
         """
-        super().append_markdown(txt)
-        self.notebook.cells.append(nbformat.v4.new_markdown_cell(txt))
+        actual_text = '\n'.join(line.lstrip() for line in txt.split('\n'))
+        super().append_markdown(actual_text)
+        self.notebook.cells.append(nbformat.v4.new_markdown_cell(actual_text))
 
     def append_code(self, pythonCode:str, dependencies:List):
         """
@@ -122,14 +120,11 @@ class JupyterCodeRequest(CodeRequest):
             result = super()._get_attribute_to_json(varName)
         return result
 
-    async def run(self):
+    def nix_flake_spec(self):
         """
-        Runs this notebook.
+        Retrieves the specification for the Nix flake.
+        :return: Such specification.
+        :rtype: pythoneda.shared.nix_flake.NixFlakeSpec
         """
-        with tempfile.TemporaryDirectory() as temp_dir:
-            await JupyterNixFlake(
-                self,
-                "code_request",
-                datetime.now().strftime("%Y%m%d%H%M%S"),
-                temp_dir,
-                "A nix flake to run a code request").run()
+        from .jupyterlab_code_request_nix_flake_spec import JupyterlabCodeRequestNixFlakeSpec
+        return JupyterlabCodeRequestNixFlakeSpec(self)
