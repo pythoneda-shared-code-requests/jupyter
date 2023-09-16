@@ -1,9 +1,9 @@
 """
-pythoneda/shared/code_requests/jupyter/jupyterlab_code_request.py
+pythoneda/shared/code_requests/jupyterlab/jupyterlab_code_request.py
 
 This file defines the JupyterlabCodeRequest class.
 
-Copyright (C) 2023-today rydnr's pythoneda-shared-code-requests/jupyter
+Copyright (C) 2023-today rydnr's pythoneda-shared-code-requests/jupyterlab
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -1,9 +1,9 @@
 """
-pythoneda/shared/code_requests/jupyter/jupyterlab_code_request_nix_flake.py
+pythoneda/shared/code_requests/jupyterlab/jupyterlab_code_request_nix_flake.py
 
 This file defines the JupyterlabCodeRequestNixFlake class.
 
-Copyright (C) 2023-today rydnr's pythoneda-shared-code-requests/jupyter
+Copyright (C) 2023-today rydnr's pythoneda-shared-code-requests/jupyterlab
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
         - Wrap a code request in a Nix flake that launches Jupyterlab.
 
     Collaborators:
-        - pythoneda.shared.code_requests.jupyter.JupyterlabCodeRequest
+        - pythoneda.shared.code_requests.jupyterlab.JupyterlabCodeRequest
     """
     def __init__(self, codeRequest:JupyterlabCodeRequest, version:str, inputs:List):
         """

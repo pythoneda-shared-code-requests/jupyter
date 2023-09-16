@@ -1,7 +1,7 @@
 """
-pythoneda/shared/code_requests/jupyter/__init__.py
+pythoneda/shared/code_requests/jupyterlab/__init__.py
 
-This file ensures pythoneda.shared.code_requests.jupyter is a package.
+This file ensures pythoneda.shared.code_requests.jupyterlab is a package.
 
 Copyright (C) 2023-today rydnr's pythoneda-shared-code-requests/jupyter
 
