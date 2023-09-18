@@ -18,10 +18,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
+from .jupyterlab_code_request import JupyterlabCodeRequest
 from path import Path
 from pythoneda import primary_key_attribute
 from pythoneda.shared.code_requests import CodeRequestNixFlake
-from pythoneda.shared.code_requests.jupyter import JupyterlabCodeRequest
 from pythoneda.shared.nix_flake import NixFlakeSpec
 from pythoneda.shared.nix_flake.licenses import Gpl3
 from typing import List
@@ -115,7 +115,7 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
         :type varValue: int, bool, str, type
         """
         if varName == 'code_request':
-            self._code_request = JupyterCodeRequest.from_dict(varValue)
+            self._code_request = JupyterlabCodeRequest.from_dict(varValue)
         else:
             super()._set_attribute_from_json(varName, varValue)
 

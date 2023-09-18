@@ -58,7 +58,7 @@ class JupyterlabCodeRequestNixFlakeSpec(CodeRequestNixFlakeSpec):
             codeRequest,
             "jupyterlab-code-request",
             versionSpec,
-            f"github:rydnr/nix-flakes/jupyterlab-{version}?dir=jupyterlab",
+            f"github:rydnr/nix-flakes/jupyterlab-{versionSpec}?dir=jupyterlab",
             inputSpecs)
 
     def _set_attribute_from_json(self, varName, varValue):

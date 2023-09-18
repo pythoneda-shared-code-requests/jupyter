@@ -3,7 +3,7 @@ pythoneda/shared/code_requests/__init__.py
 
 This file ensures pythoneda.shared.code_requests is a namespace.
 
-Copyright (C) 2023-today rydnr's pythoneda-shared-code-requests/jupyter
+Copyright (C) 2023-today rydnr's pythoneda-shared-code-requests/jupyterlab
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
