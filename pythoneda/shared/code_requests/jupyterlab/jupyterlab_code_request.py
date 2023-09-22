@@ -120,6 +120,7 @@ class JupyterlabCodeRequest(CodeRequest):
             result = super()._get_attribute_to_json(varName)
         return result
 
+    @property
     def nix_flake_spec(self):
         """
         Retrieves the specification for the Nix flake.
