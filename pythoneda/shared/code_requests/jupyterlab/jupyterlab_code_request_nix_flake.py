@@ -20,11 +20,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 from .jupyterlab_code_request import JupyterlabCodeRequest
 from path import Path
-from pythoneda import primary_key_attribute
 from pythoneda.shared.code_requests import CodeRequestNixFlake
-from pythoneda.shared.nix_flake import NixFlakeSpec
 from pythoneda.shared.nix_flake.licenses import Gpl3
 from typing import List
+
 
 class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
 
@@ -39,7 +38,7 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
     Collaborators:
         - pythoneda.shared.code_requests.jupyterlab.JupyterlabCodeRequest
     """
-    def __init__(self, codeRequest:JupyterlabCodeRequest, version:str, inputs:List):
+    def __init__(self, codeRequest: JupyterlabCodeRequest, version: str, inputs: List):
         """
         Creates a new JupyterlabCodeRequestNixFlake instance.
         :param codeRequest: The code request.
@@ -58,7 +57,7 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
             "Jupyterlab code request",
             "https://github.com/pythoneda-shared-code-requests/jupyter",
             Gpl3.license_type(),
-            [ "rydnr <github@acm-sl.org>" ],
+            ["rydnr <github@acm-sl.org>"],
             2023,
             "rydnr")
 
@@ -80,7 +79,7 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
         super().generate_files(flakeFolder)
         self.generate_notebook(flakeFolder)
 
-    def generate_notebook(self, flakeFolder:str):
+    def generate_notebook(self, flakeFolder: str):
         """
         Generates the code-request.ipynb from a template.
         :param flakeFolder: The flake folder.
@@ -127,7 +126,6 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
         :return: The attribute value in json format.
         :rtype: str
         """
-        result = None
         if varName == 'code_request':
             result = self._code_request.to_dict()
         else:

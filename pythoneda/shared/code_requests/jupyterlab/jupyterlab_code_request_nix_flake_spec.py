@@ -22,6 +22,7 @@ from .jupyterlab_code_request import JupyterlabCodeRequest
 from pythoneda.shared.code_requests import CodeRequestNixFlakeSpec
 from typing import List
 
+
 class JupyterlabCodeRequestNixFlakeSpec(CodeRequestNixFlakeSpec):
     """
     Specifies Jupyterlab Nix flakes wrapping a code request.
@@ -45,12 +46,8 @@ class JupyterlabCodeRequestNixFlakeSpec(CodeRequestNixFlakeSpec):
         Creates a new JupyterlabCodeNixFlakeSpec instance.
         :param codeRequest: The code request.
         :type codeRequest: pythoneda.shared.code_requests.jupyterlab.JupyterlabCodeRequest
-        :param name: The name of the flake.
-        :type name: str
         :param versionSpec: The version of the flake.
         :type versionSpec: str
-        :param url: The url.
-        :type url: str
         :param inputSpecs: The flake specs.
         :type inputSpecs: List[pythoneda.shared.nix_flake.NixFlakeSpec]
         """

@@ -21,8 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import nbformat
 from pythoneda import primary_key_attribute
 from pythoneda.shared.code_requests import CodeRequest, CodeRequestNixFlakeSpec
-from pythoneda.shared.nix_flake import NixFlakeSpec
 from typing import List
+
 
 class JupyterlabCodeRequest(CodeRequest):
 
@@ -63,7 +63,7 @@ class JupyterlabCodeRequest(CodeRequest):
         """
         return self._notebook
 
-    def append_markdown(self, txt:str):
+    def append_markdown(self, txt: str):
         """
         Appends a new Markdown cell.
         :param txt: The text to add.
@@ -73,7 +73,7 @@ class JupyterlabCodeRequest(CodeRequest):
         super().append_markdown(actual_text)
         self.notebook.cells.append(nbformat.v4.new_markdown_cell(actual_text))
 
-    def append_code(self, pythonCode:str, dependencies:List):
+    def append_code(self, pythonCode: str, dependencies: List):
         """
         Appends a new code cell.
         :param pythonCode: The Python code to add.
@@ -113,7 +113,6 @@ class JupyterlabCodeRequest(CodeRequest):
         :return: The attribute value in json format.
         :rtype: str
         """
-        result = None
         if varName == 'notebook':
             result = nbformat.writes(self._notebook)
         else:
