@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/shared/code_requests/jupyterlab/jupyterlab_code_request_nix_flake_spec.py
 

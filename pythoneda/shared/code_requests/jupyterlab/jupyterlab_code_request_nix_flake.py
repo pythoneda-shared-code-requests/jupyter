@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/shared/code_requests/jupyterlab/jupyterlab_code_request_nix_flake.py
 
@@ -38,6 +39,7 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
     Collaborators:
         - pythoneda.shared.code_requests.jupyterlab.JupyterlabCodeRequest
     """
+
     def __init__(self, codeRequest: JupyterlabCodeRequest, version: str, inputs: List):
         """
         Creates a new JupyterlabCodeRequestNixFlake instance.
@@ -59,14 +61,15 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
             Gpl3.license_type(),
             ["rydnr <github@acm-sl.org>"],
             2023,
-            "rydnr")
+            "rydnr",
+        )
 
     @classmethod
     def empty(cls):
         """
         Builds an empty instance. Required for unmarshalling.
         :return: An empty instance.
-        :rtype: pythoneda.ValueObject
+        :rtype: pythoneda.shared.ValueObject
         """
         return cls(None, None, [])
 
@@ -113,7 +116,7 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
         :param varValue: The value of the attribute.
         :type varValue: int, bool, str, type
         """
-        if varName == 'code_request':
+        if varName == "code_request":
             self._code_request = JupyterlabCodeRequest.from_dict(varValue)
         else:
             super()._set_attribute_from_json(varName, varValue)
@@ -126,7 +129,7 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
         :return: The attribute value in json format.
         :rtype: str
         """
-        if varName == 'code_request':
+        if varName == "code_request":
             result = self._code_request.to_dict()
         else:
             result = super()._get_attribute_to_json(varName)

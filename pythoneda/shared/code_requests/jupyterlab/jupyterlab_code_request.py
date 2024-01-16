@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf-8
 """
 pythoneda/shared/code_requests/jupyterlab/jupyterlab_code_request.py
 
@@ -19,7 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 import nbformat
-from pythoneda import primary_key_attribute
+from pythoneda.shared import primary_key_attribute
 from pythoneda.shared.code_requests import CodeRequest, CodeRequestNixFlakeSpec
 from typing import List
 
@@ -37,6 +38,7 @@ class JupyterlabCodeRequest(CodeRequest):
     Collaborators:
         - pythoneda.shared.code_requests.CodeRequest
     """
+
     def __init__(self):
         """
         Creates a new JupyterlabCodeRequest instance.
@@ -49,7 +51,7 @@ class JupyterlabCodeRequest(CodeRequest):
         """
         Builds an empty instance. Required for unmarshalling.
         :return: An empty instance.
-        :rtype: pythoneda.ValueObject
+        :rtype: pythoneda.shared.ValueObject
         """
         return cls()
 
@@ -69,7 +71,7 @@ class JupyterlabCodeRequest(CodeRequest):
         :param txt: The text to add.
         :type txt: str
         """
-        actual_text = '\n'.join(line.lstrip() for line in txt.split('\n'))
+        actual_text = "\n".join(line.lstrip() for line in txt.split("\n"))
         super().append_markdown(actual_text)
         self.notebook.cells.append(nbformat.v4.new_markdown_cell(actual_text))
 
@@ -100,7 +102,7 @@ class JupyterlabCodeRequest(CodeRequest):
         :param varValue: The value of the attribute.
         :type varValue: int, bool, str, type
         """
-        if varName == 'notebook':
+        if varName == "notebook":
             self._notebook = nbformat.reads(varValue, as_version=4)
         else:
             super()._set_attribute_from_json(varName, varValue)
@@ -113,7 +115,7 @@ class JupyterlabCodeRequest(CodeRequest):
         :return: The attribute value in json format.
         :rtype: str
         """
-        if varName == 'notebook':
+        if varName == "notebook":
             result = nbformat.writes(self._notebook)
         else:
             result = super()._get_attribute_to_json(varName)
@@ -126,5 +128,8 @@ class JupyterlabCodeRequest(CodeRequest):
         :return: Such specification.
         :rtype: pythoneda.shared.nix_flake.NixFlakeSpec
         """
-        from .jupyterlab_code_request_nix_flake_spec import JupyterlabCodeRequestNixFlakeSpec
+        from .jupyterlab_code_request_nix_flake_spec import (
+            JupyterlabCodeRequestNixFlakeSpec,
+        )
+
         return JupyterlabCodeRequestNixFlakeSpec(self)
