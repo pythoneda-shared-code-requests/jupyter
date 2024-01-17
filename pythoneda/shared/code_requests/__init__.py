@@ -27,3 +27,11 @@ from pythoneda.shared.code_requests.code_cell import CodeCell
 from pythoneda.shared.code_requests.markdown_cell import MarkdownCell
 from pythoneda.shared.code_requests.dependency import Dependency
 from pythoneda.shared.code_requests.code_request import CodeRequest
+# vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
+# Local Variables:
+# mode: python
+# python-indent-offset: 4
+# tab-width: 4
+# indent-tabs-mode: nil
+# fill-column: 79
+# End:
