@@ -22,7 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from .jupyterlab_code_request import JupyterlabCodeRequest
 from path import Path
 from pythoneda.shared.code_requests import CodeRequestNixFlake
-from pythoneda.shared.nix_flake.licenses import Gpl3
+from pythoneda.shared.nix.flake.licenses import Gpl3
 from typing import List
 
 
@@ -134,6 +134,8 @@ class JupyterlabCodeRequestNixFlake(CodeRequestNixFlake):
         else:
             result = super()._get_attribute_to_json(varName)
         return result
+
+
 # vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
 # Local Variables:
 # mode: python

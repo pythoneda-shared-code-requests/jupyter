@@ -39,10 +39,11 @@ class JupyterlabCodeRequestNixFlakeSpec(CodeRequestNixFlakeSpec):
     """
 
     def __init__(
-            self,
-            codeRequest: JupyterlabCodeRequest,
-            versionSpec: str = None,
-            inputSpecs: List = []):
+        self,
+        codeRequest: JupyterlabCodeRequest,
+        versionSpec: str = None,
+        inputSpecs: List = [],
+    ):
         """
         Creates a new JupyterlabCodeNixFlakeSpec instance.
         :param codeRequest: The code request.
@@ -50,14 +51,15 @@ class JupyterlabCodeRequestNixFlakeSpec(CodeRequestNixFlakeSpec):
         :param versionSpec: The version of the flake.
         :type versionSpec: str
         :param inputSpecs: The flake specs.
-        :type inputSpecs: List[pythoneda.shared.nix_flake.NixFlakeSpec]
+        :type inputSpecs: List[pythoneda.shared.nix.flake.NixFlakeSpec]
         """
         super().__init__(
             codeRequest,
             "jupyterlab-code-request",
             versionSpec,
             f"github:rydnr/nix-flakes/jupyterlab-{versionSpec}?dir=jupyterlab",
-            inputSpecs)
+            inputSpecs,
+        )
 
     def _set_attribute_from_json(self, varName, varValue):
         """
@@ -67,10 +69,12 @@ class JupyterlabCodeRequestNixFlakeSpec(CodeRequestNixFlakeSpec):
         :param varValue: The value of the attribute.
         :type varValue: int, bool, str, type
         """
-        if varName == 'code_request':
+        if varName == "code_request":
             self._code_request = JupyterlabCodeRequest.from_dict(varValue)
         else:
             super()._set_attribute_from_json(varName, varValue)
+
+
 # vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
 # Local Variables:
 # mode: python
