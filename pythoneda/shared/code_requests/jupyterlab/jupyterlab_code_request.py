@@ -26,7 +26,6 @@ from typing import List
 
 
 class JupyterlabCodeRequest(CodeRequest):
-
     """
     Jupyterlab-based code requests.
 
@@ -126,13 +125,15 @@ class JupyterlabCodeRequest(CodeRequest):
         """
         Retrieves the specification for the Nix flake.
         :return: Such specification.
-        :rtype: pythoneda.shared.nix_flake.NixFlakeSpec
+        :rtype: pythoneda.shared.code_requests.jupyterlab.jupyterlabCodeRequestNixFlakeSpec
         """
         from .jupyterlab_code_request_nix_flake_spec import (
             JupyterlabCodeRequestNixFlakeSpec,
         )
 
         return JupyterlabCodeRequestNixFlakeSpec(self)
+
+
 # vim: syntax=python ts=4 sw=4 sts=4 tw=79 sr et
 # Local Variables:
 # mode: python
